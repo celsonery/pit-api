@@ -1,0 +1,147 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: produtos-externos-api
+  namespace: bagarote-importacao
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: produtos-externos-api
+  template:
+    metadata:
+      labels:
+        app: produtos-externos-api
+    spec:
+#      securityContext:
+#        runAsUser: 1000
+#        runAsGroup: 1000
+      containers:
+        - name: produtos-externos-api
+          image: registry.bagarote.dev.br/bagarote/produtos-externos/api:latest
+          env:
+            - name: DB_CONNECTION
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-produtos-externos
+                  key: db_connection
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-produtos-externos
+                  key: db_host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-produtos-externos
+                  key: db_port
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-produtos-externos
+                  key: db_database
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-produtos-externos
+                  key: db_username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-produtos-externos
+                  key: db_password
+          securityContext:
+            allowPrivilegeEscalation: false
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1000m"
+          ports:
+            - containerPort: 8000
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: produtos-externos-queues
+  namespace: bagarote-importacao
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: produtos-externos-queues
+  template:
+    metadata:
+      labels:
+        app: produtos-externos-queues
+    spec:
+#      securityContext:
+#        runAsUser: 1000
+#        runAsGroup: 1000
+      containers:
+        - name: produtos-externos-queues
+          image: registry.bagarote.dev.br/bagarote/produtos-externos/api:latest
+          command: ["/usr/local/bin/php"]
+          args: ["artisan", "queue:work", "--tries=2", "--queue=email,high,default"]
+          env:
+            - name: DB_CONNECTION
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-produtos-externos
+                  key: db_connection
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-produtos-externos
+                  key: db_host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-produtos-externos
+                  key: db_port
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-produtos-externos
+                  key: db_database
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-produtos-externos
+                  key: db_username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-produtos-externos
+                  key: db_password
+          securityContext:
+            allowPrivilegeEscalation: false
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1024Mi"
+              cpu: "1000m"
+#          ports:
+#            - containerPort: 8000
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: produtos-externos-api-service
+  namespace: bagarote-importacao
+spec:
+  selector:
+    app: produtos-externos-api
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: ClusterIP
+  #type: NodePort

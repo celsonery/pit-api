@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+    app:
+        image: registry.bagarote.dev.br/bagarote/produtos-externos/api:latest
+        build:
+            context: ./
+            dockerfile: ./docker/dockerfile
+        restart: unless-stopped
+        ports:
+            - "8000:8000"
+        environment:
+            DB_CONNECTION: pgsql
+            DB_HOST: host
+            DB_PORT: 5432
+        working_dir: /var/www/html
+        volumes:
+            - ./:/var/www/html # Para debugar a aplicacao na maquina local
+        networks:
+            - produtos-externos
+
+    queue:
+        image: registry.bagarote.dev.br/bagarote/produtos-externos/api:latest
+        build:
+            context: ./
+            dockerfile: ./docker/dockerfile
+        restart: unless-stopped
+        command: "php artisan queue:work --tries=2 --queue=email,high,default"
+        environment:
+            SELENIUM_HUB_SERVICE_HOST: 10.89.2.3
+            SELENIUM_HUB_SERVICE_PORT: 4444
+            DB_CONNECTION: pgsql
+            DB_HOST: host
+            DB_PORT: 5432
+            DB_DATABASE: unicid_cakes
+        working_dir: /var/www/html
+        volumes:
+            - ./:/var/www/html # Para debugar a aplicacao na maquina local
+        depends_on:
+            - selenium
+        networks:
+            - produtos-externos
+
+    selenium:
+        image: selenium/standalone-chrome:latest
+        shm_size: 2g
+        restart: unless-stopped
+        ports:
+            - "4444:4444"
+            - "7900:7900"
+        networks:
+            - produtos-externos
+
+networks:
+    produtos-externos:
+        driver: bridge
