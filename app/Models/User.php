@@ -49,6 +49,6 @@ class User extends Authenticatable
 
     public function providers(): HasMany
     {
-        return $this->hasMany(Provider::class, 'user_id', 'id');
+        return $this->hasMany(Provider::class);
     }
 }
