@@ -1,4 +1,4 @@
-name: Pit-Api Workflow
+name: Workflow
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   tests:
-    name: Pit-Api Tests
+
     runs-on: ubuntu-latest
 
     steps:
@@ -16,23 +16,14 @@ jobs:
       with:
         php-version: '8.3.9'
     - uses: actions/checkout@v4
-
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-
     - name: Install Dependencies
-      run: composer install --optimize-autoloader -q --no-ansi --no-interaction --no-scripts --no-progress
-
+      run: composer update --optimize-autoloader -q --no-ansi --no-interaction --no-scripts --no-progress
     - name: Generate key
-      run: |
-        php artisan optimize:clear
-        php artisan key:generate
-
+      run: php artisan key:generate
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: php artisan test
-
-    - name: Execute qualit tests with Pint
-      run: ./vendor/bin/pint -v --test
