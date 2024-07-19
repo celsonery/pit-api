@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
+use App\Notifications\Auth\RegisterActivate;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
@@ -18,9 +19,6 @@ class AuthController extends Controller
 {
     /**
      * Register a new user.
-     *
-     * @param RegisterRequest $request
-     * @return JsonResponse
      */
     public function register(RegisterRequest $request): JsonResponse
     {
@@ -29,21 +27,33 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'activation_token' => Str::random(60)
+                'activation_token' => Str::random(60),
+                //                'activation_token' => random_int(100000, 999999)
             ]);
+
+            $user->notify(new RegisterActivate($user));
 
             return response()->json(['message' => 'User created successfully!'], 201);
         }
+
         return response()->json(['message' => 'Invalid credentials!'], 403);
     }
 
+    /**
+     * Login exits user.
+     */
     public function login(LoginRequest $request): JsonResponse
     {
         if ($request->validated()) {
-            if (!Auth::attempt($request->validated()))
-                return response()->json(['message' => 'Unauthorized!'], 401);
+            $credentials = $request->only(['email', 'password']);
+            $credentials['active'] = 1;
+            $credentials['deleted_at'] = null;
 
-            $token = $request->user()->createToken('access_token');
+            if (!Auth::attempt($credentials)) {
+                return response()->json(['message' => 'Unauthorized!'], 401);
+            }
+
+            $token = $request->user()->createToken('access_token')->plainTextToken;
 
             $token->expires_at = $request->remember_me ? Carbon::now()->addYear() : Carbon::now()->addDay();
 
@@ -53,29 +63,54 @@ class AuthController extends Controller
         return response()->json(['message' => 'Invalid credentials'], 403);
     }
 
+    /**
+     * Logout user logged.
+     */
     public function logout(): JsonResponse
     {
-        Auth::user()->tokens()->delete();
+        Auth::user()->tokens()->revoke();
 
-        return response()->json(['message' => 'Logged out'], 201);
+        return response()->json(['message' => 'User logged out'], 201);
     }
 
-    public function me()
+    /**
+     * Return user data.
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable
+     */
+    public function user(): JsonResponse
     {
-        return auth()->user();
+        return response()->json(auth()->user());
+    }
+
+    public function activate($token): JsonResponse
+    {
+        $user = User::where('activation_token', $token)->first();
+
+        if (! $user) {
+            return response()->json(['message' => 'This activation token is invalid!'], 404);
+        }
+
+        $user->active = true;
+        $user->activation_token = '';
+
+        if (! $user->save()) {
+            return response()->json(['message' => 'User activate error!'], 401);
+        }
+
+        return response()->json(['message' => 'User activate successfully!'], 200);
     }
 
     /**
      * Redirect the user to the Provider authentication page.
      *
-     * @param string $provider
      * @return JsonResponse
      */
     public function redirectToProvider(string $provider)
     {
         $validated = $this->validateProvider($provider);
 
-        if (!$validated) {
+        if (! $validated) {
             return response()->json(['error' => 'Please login using facebook, github or google'], 422);
         }
 
@@ -84,15 +119,12 @@ class AuthController extends Controller
 
     /**
      * Redirect the user to the Provider authentication page.
-     *
-     * @param string $provider
-     * @return JsonResponse
      */
     public function handleProviderCallback(string $provider): JsonResponse
     {
         $validated = $this->validateProvider($provider);
 
-        if (!$validated) {
+        if (! $validated) {
             return response()->json(['error' => 'Please login using facebook, github or google'], 422);
         }
 
@@ -103,7 +135,7 @@ class AuthController extends Controller
         }
 
         $userCreated = User::firstOrCreate([
-            'email' => $user->getEmail()
+            'email' => $user->getEmail(),
         ], [
             'email_verified_at' => now(),
             'name' => $user->getName(),
@@ -114,7 +146,7 @@ class AuthController extends Controller
             'provider' => $provider,
             'provider_id' => $user->getId(),
         ], [
-            'avatar' => $user->getAvatar()
+            'avatar' => $user->getAvatar(),
         ]);
 
         $token = $userCreated->createToken('token-name')->plainTextToken;
@@ -122,16 +154,8 @@ class AuthController extends Controller
         return response()->json($userCreated, 200, ['access_token' => $token]);
     }
 
-    /**
-     * @param string $provider
-     * @return boolean
-     */
     protected function validateProvider(string $provider): bool
     {
-        if (in_array($provider, ['facebook', 'github', 'google'])) {
-            return true;
-        } else {
-            return false;
-        }
+        return in_array($provider, ['facebook', 'github', 'google']);
     }
 }
