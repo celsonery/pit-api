@@ -1,58 +1,57 @@
+#build:
+#  environment:
+#    php:
+#      version: 8.2
+#  nodes:
+#    analysis:
+#      project_setup:
+#        override:
+#          - 'true'
+#      tests:
+#        override:
+#          - php-scrutinizer-run
+#
+#    tests: true
+#filter:
+#  paths:
+#    - 'app/*'
+#  excluded_paths:
+#    - 'app/views/*'
+#    - 'app/config/*'
+#    - 'app/database/*'
+#    - 'reports/*'
+#    - 'vendor/*'
+#    - 'tests/*'
+#checks:
+#  php: true
+#coding_style:
+#  php:
+#    spaces:
+#      within:
+#        brackets: true
+#---
 build:
   environment:
     php:
       version: 8.2
   nodes:
-    analysis:
-      project_setup:
-        override:
-          - 'true'
+    coverage:
       tests:
+        before:
+          - "cp .env.example .env"
         override:
-          - php-scrutinizer-run
-          -
-            command: phpcs-run
-            use_website_config: true
-          - js-scrutinizer-run
-    tests: true
+          - command: 'php artisan test'
+            coverage:
+              file: './target/coverage.xml'
+              format: 'clover'
+
 filter:
   paths:
     - 'app/*'
   excluded_paths:
+    - 'vendor/*'
+    - 'tests/*'
     - 'app/views/*'
     - 'app/config/*'
     - 'app/database/*'
     - 'reports/*'
-    - 'vendor/*'
-    - 'tests/*'
-checks:
-  php: true
-  javascript: true
-coding_style:
-  php:
-    spaces:
-      within:
-        brackets: true
-#---
-#build:
-#  environment:
-#    php:
-#      version: 7.2
-#  nodes:
-#    coverage:
-#      tests:
-#        before:
-#          - "cp .env.example .env"
-#          - "echo 'SLACK_END_POINT =your_webhook' > .env"
-#        override:
-#          - command: 'php ./vendor/phpunit/phpunit/phpunit --bootstrap ./tests/bootstrap.php --configuration ./phpunit.xml'
-#            coverage:
-#              file: './target/coverage.xml'
-#              format: 'clover'
-#
-#filter:
-#  paths:
-#    - 'src/*'
-#  excluded_paths:
-#    - 'vendor/*'
-#    - 'tests/*'
