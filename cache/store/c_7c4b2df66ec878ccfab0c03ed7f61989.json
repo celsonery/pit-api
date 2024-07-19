@@ -1,0 +1,214 @@
+{
+    "name": "App\\Models\\User",
+    "line": 11,
+    "short_desc": null,
+    "long_desc": null,
+    "hint": null,
+    "tags": [],
+    "namespace": "App\\Models",
+    "file": "\/home\/celso\/Devel\/projects\/oregon\/pit\/api\/app\/Models\/User.php",
+    "relative_file": null,
+    "hash": "d2fec6c1fe54678de4c0e7653e817b1b559f7937",
+    "parent": "Illuminate\\Foundation\\Auth\\User",
+    "modifiers": 0,
+    "is_trait": false,
+    "is_interface": false,
+    "is_read_only": false,
+    "aliases": {
+        "HasFactory": "Illuminate\\Database\\Eloquent\\Factories\\HasFactory",
+        "Authenticatable": "Illuminate\\Foundation\\Auth\\User",
+        "Notifiable": "Illuminate\\Notifications\\Notifiable",
+        "HasApiTokens": "Laravel\\Sanctum\\HasApiTokens"
+    },
+    "errors": [],
+    "interfaces": [],
+    "traits": {
+        "Illuminate\\Database\\Eloquent\\Factories\\HasFactory": "Illuminate\\Database\\Eloquent\\Factories\\HasFactory",
+        "Illuminate\\Notifications\\Notifiable": "Illuminate\\Notifications\\Notifiable",
+        "Laravel\\Sanctum\\HasApiTokens": "Laravel\\Sanctum\\HasApiTokens"
+    },
+    "properties": {
+        "fillable": {
+            "name": "fillable",
+            "line": 20,
+            "short_desc": "The attributes that are mass assignable.",
+            "long_desc": "",
+            "hint": [
+                [
+                    "App\\Models\\array<int,string>",
+                    false
+                ]
+            ],
+            "hint_desc": "",
+            "tags": [],
+            "modifiers": 2,
+            "default": {
+                "nodeType": "Expr_Array",
+                "attributes": {
+                    "startLine": 20,
+                    "endLine": 24,
+                    "kind": 2
+                },
+                "items": [
+                    {
+                        "nodeType": "Expr_ArrayItem",
+                        "attributes": {
+                            "startLine": 21,
+                            "endLine": 21
+                        },
+                        "key": null,
+                        "value": {
+                            "nodeType": "Scalar_String",
+                            "attributes": {
+                                "startLine": 21,
+                                "endLine": 21,
+                                "kind": 1,
+                                "rawValue": "'name'"
+                            },
+                            "value": "name"
+                        },
+                        "byRef": false,
+                        "unpack": false
+                    },
+                    {
+                        "nodeType": "Expr_ArrayItem",
+                        "attributes": {
+                            "startLine": 22,
+                            "endLine": 22
+                        },
+                        "key": null,
+                        "value": {
+                            "nodeType": "Scalar_String",
+                            "attributes": {
+                                "startLine": 22,
+                                "endLine": 22,
+                                "kind": 1,
+                                "rawValue": "'email'"
+                            },
+                            "value": "email"
+                        },
+                        "byRef": false,
+                        "unpack": false
+                    },
+                    {
+                        "nodeType": "Expr_ArrayItem",
+                        "attributes": {
+                            "startLine": 23,
+                            "endLine": 23
+                        },
+                        "key": null,
+                        "value": {
+                            "nodeType": "Scalar_String",
+                            "attributes": {
+                                "startLine": 23,
+                                "endLine": 23,
+                                "kind": 1,
+                                "rawValue": "'password'"
+                            },
+                            "value": "password"
+                        },
+                        "byRef": false,
+                        "unpack": false
+                    }
+                ]
+            },
+            "errors": [],
+            "is_read_only": false,
+            "is_write_only": false,
+            "is_intersection_type": false
+        },
+        "hidden": {
+            "name": "hidden",
+            "line": 31,
+            "short_desc": "The attributes that should be hidden for serialization.",
+            "long_desc": "",
+            "hint": [
+                [
+                    "App\\Models\\array<int,string>",
+                    false
+                ]
+            ],
+            "hint_desc": "",
+            "tags": [],
+            "modifiers": 2,
+            "default": {
+                "nodeType": "Expr_Array",
+                "attributes": {
+                    "startLine": 31,
+                    "endLine": 34,
+                    "kind": 2
+                },
+                "items": [
+                    {
+                        "nodeType": "Expr_ArrayItem",
+                        "attributes": {
+                            "startLine": 32,
+                            "endLine": 32
+                        },
+                        "key": null,
+                        "value": {
+                            "nodeType": "Scalar_String",
+                            "attributes": {
+                                "startLine": 32,
+                                "endLine": 32,
+                                "kind": 1,
+                                "rawValue": "'password'"
+                            },
+                            "value": "password"
+                        },
+                        "byRef": false,
+                        "unpack": false
+                    },
+                    {
+                        "nodeType": "Expr_ArrayItem",
+                        "attributes": {
+                            "startLine": 33,
+                            "endLine": 33
+                        },
+                        "key": null,
+                        "value": {
+                            "nodeType": "Scalar_String",
+                            "attributes": {
+                                "startLine": 33,
+                                "endLine": 33,
+                                "kind": 1,
+                                "rawValue": "'remember_token'"
+                            },
+                            "value": "remember_token"
+                        },
+                        "byRef": false,
+                        "unpack": false
+                    }
+                ]
+            },
+            "errors": [],
+            "is_read_only": false,
+            "is_write_only": false,
+            "is_intersection_type": false
+        }
+    },
+    "methods": {
+        "casts": {
+            "name": "casts",
+            "line": 41,
+            "short_desc": "Get the attributes that should be cast.",
+            "long_desc": "",
+            "hint": [
+                [
+                    "array",
+                    false
+                ]
+            ],
+            "hint_desc": "",
+            "tags": [],
+            "see": [],
+            "modifiers": 2,
+            "is_by_ref": "",
+            "is_intersection_type": false,
+            "exceptions": [],
+            "errors": [],
+            "parameters": []
+        }
+    },
+    "constants": []
+}

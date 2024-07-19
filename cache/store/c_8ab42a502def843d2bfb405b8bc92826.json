@@ -1,0 +1,69 @@
+{
+    "name": "App\\Http\\Requests\\LoginRequest",
+    "line": 7,
+    "short_desc": null,
+    "long_desc": null,
+    "hint": null,
+    "tags": [],
+    "namespace": "App\\Http\\Requests",
+    "file": "\/home\/celso\/Devel\/projects\/oregon\/pit\/api\/app\/Http\/Requests\/LoginRequest.php",
+    "relative_file": null,
+    "hash": "0faf8c9773c14f28b88101f9330c3cb1f01aeaf7",
+    "parent": "Illuminate\\Foundation\\Http\\FormRequest",
+    "modifiers": 0,
+    "is_trait": false,
+    "is_interface": false,
+    "is_read_only": false,
+    "aliases": {
+        "FormRequest": "Illuminate\\Foundation\\Http\\FormRequest"
+    },
+    "errors": [],
+    "interfaces": [],
+    "traits": [],
+    "properties": [],
+    "methods": {
+        "authorize": {
+            "name": "authorize",
+            "line": 12,
+            "short_desc": "Determine if the user is authorized to make this request.",
+            "long_desc": "",
+            "hint": [
+                [
+                    "bool",
+                    false
+                ]
+            ],
+            "hint_desc": null,
+            "tags": [],
+            "see": [],
+            "modifiers": 1,
+            "is_by_ref": "",
+            "is_intersection_type": false,
+            "exceptions": [],
+            "errors": [],
+            "parameters": []
+        },
+        "rules": {
+            "name": "rules",
+            "line": 22,
+            "short_desc": "Get the validation rules that apply to the request.",
+            "long_desc": "",
+            "hint": [
+                [
+                    "array",
+                    false
+                ]
+            ],
+            "hint_desc": "",
+            "tags": [],
+            "see": [],
+            "modifiers": 1,
+            "is_by_ref": "",
+            "is_intersection_type": false,
+            "exceptions": [],
+            "errors": [],
+            "parameters": []
+        }
+    },
+    "constants": []
+}
