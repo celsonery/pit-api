@@ -39,11 +39,9 @@ build:
       tests:
         before:
           - "cp .env.example .env"
+          - "composer update"
         override:
           - command: 'php artisan test'
-            coverage:
-              file: './target/coverage.xml'
-              format: 'clover'
 
 filter:
   paths:
