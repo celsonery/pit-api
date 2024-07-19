@@ -33,3 +33,26 @@ coding_style:
     spaces:
       within:
         brackets: true
+#---
+#build:
+#  environment:
+#    php:
+#      version: 7.2
+#  nodes:
+#    coverage:
+#      tests:
+#        before:
+#          - "cp .env.example .env"
+#          - "echo 'SLACK_END_POINT =your_webhook' > .env"
+#        override:
+#          - command: 'php ./vendor/phpunit/phpunit/phpunit --bootstrap ./tests/bootstrap.php --configuration ./phpunit.xml'
+#            coverage:
+#              file: './target/coverage.xml'
+#              format: 'clover'
+#
+#filter:
+#  paths:
+#    - 'src/*'
+#  excluded_paths:
+#    - 'vendor/*'
+#    - 'tests/*'
