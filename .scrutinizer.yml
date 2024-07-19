@@ -1,0 +1,35 @@
+build:
+  environment:
+    php:
+      version: 8.2
+  nodes:
+    analysis:
+      project_setup:
+        override:
+          - 'true'
+      tests:
+        override:
+          - php-scrutinizer-run
+          -
+            command: phpcs-run
+            use_website_config: true
+          - js-scrutinizer-run
+    tests: true
+filter:
+  paths:
+    - 'app/*'
+  excluded_paths:
+    - 'app/views/*'
+    - 'app/config/*'
+    - 'app/database/*'
+    - 'reports/*'
+    - 'vendor/*'
+    - 'tests/*'
+checks:
+  php: true
+  javascript: true
+coding_style:
+  php:
+    spaces:
+      within:
+        brackets: true
