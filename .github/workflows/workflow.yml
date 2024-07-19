@@ -38,7 +38,7 @@ jobs:
 
     - name: Optimize application
       run: php artisan optimize:clear
-      
+
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
