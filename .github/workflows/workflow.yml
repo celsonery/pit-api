@@ -2,12 +2,15 @@ name: Pit-Api Workflow
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [
+      "main",
+      "develop"
+    ]
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  tests:
+  quality-tests:
     name: Pit-Api Tests
     runs-on: ubuntu-latest
 
@@ -39,11 +42,13 @@ jobs:
     - name: Optimize application
       run: php artisan optimize:clear
 
+    - name: Execute quality tests with Pint
+      run: ./vendor/bin/pint -v --test
+
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: php artisan test
 
-    - name: Execute qualit tests with Pint
-      run: ./vendor/bin/pint -v --test
+#  unit-and-features-tests:
