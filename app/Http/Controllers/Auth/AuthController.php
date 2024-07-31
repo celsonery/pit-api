@@ -9,8 +9,6 @@ use App\Models\User;
 use App\Notifications\Auth\RegisterActivate;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -69,10 +67,11 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        if (Auth::user()->currentAccessToken()->delete()) {
-            return response()->json(['message' => 'User logged out'], 201);
+        if (!Auth::user()->currentAccessToken()->delete()) {
+            return response()->json(['message' => 'The user token not revoked!']);
         }
 
+        return response()->json(['message' => 'User logged out'], 201);
     }
 
     /**
