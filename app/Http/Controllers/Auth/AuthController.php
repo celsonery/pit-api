@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\Auth\RegisterActivate;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -55,9 +56,9 @@ class AuthController extends Controller
 
             $token = $request->user()->createToken('access_token')->plainTextToken;
 
-            $token->expires_at = $request->remember_me ? Carbon::now()->addYear() : Carbon::now()->addDay();
+//            $token->expires_at = $request->remember_me ? Carbon::now()->addYear() : Carbon::now()->addDay();
 
-            return response()->json($token, 200);
+            return response()->json(['user' => Auth::user(), 'access_token' => $token], 200);
         }
 
         return response()->json(['message' => 'Invalid credentials'], 403);
@@ -68,9 +69,10 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        Auth::user()->tokens()->revoke();
+        if (Auth::user()->currentAccessToken()->delete()) {
+            return response()->json(['message' => 'User logged out'], 201);
+        }
 
-        return response()->json(['message' => 'User logged out'], 201);
     }
 
     /**
