@@ -1,0 +1,65 @@
+FROM php:8.3.9-cli-alpine3.20
+
+# Update alpine image and install packeges
+RUN apk --update --no-cache add curl \
+    git \
+    zip \
+    unzip \
+    vim \
+    lynx \
+    libzip \
+    libzip-dev \
+    libpng-dev \
+    oniguruma-dev \
+    linux-headers
+
+# Install packages to run PHP/laravel and our app
+RUN apk --update --no-cache add php83-bcmath \
+    php83-bz2 \
+    php83-calendar \
+    php83-exif \
+    php83-gettext \
+    php83-opcache \
+    php83-pcntl \
+    php83-zip \
+    php83-xdebug \
+    php83-sockets
+
+# Install extensions for PHP
+RUN docker-php-ext-install \
+    zip \
+    bcmath \
+    pdo \
+    pdo_mysql \
+    mbstring \
+    exif \
+    pcntl \
+    sockets
+
+RUN ln -s /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
+COPY ./docker/php/extra.ini /usr/local/etc/php/conf.d/99_extra.ini
+
+# Instalando o composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Configurando diretório de trabalho
+WORKDIR /usr/local/bin/app
+
+# copiando os arquivos do app laravel
+COPY . ./
+COPY .env.example .env
+
+# Colocando para producao
+RUN sed -i 's/APP_ENV=local/APP_ENV=production/' .env
+RUN sed -i 's/APP_DEBUG=true/APP_DEBUG=false/' .env
+
+# Executando composer update
+RUN composer update -o --no-dev
+
+# Gerando APP_KEY
+RUN php artisan key:generate
+
+# Habilitando a porta 8000
+EXPOSE 8000
+
+CMD [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=8000" ]

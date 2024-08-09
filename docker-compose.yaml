@@ -1,0 +1,66 @@
+version: "3"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/dockerfile
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - mysql
+      - redis
+    ports:
+      - "8000:8000"
+    networks:
+      - pit-network
+
+  # queue
+  queue:
+    image: celsonery/pit-api:v1.0.0
+    restart: unless-stopped
+    command: "php artisan queue:work --tries=3 --queue=email,high,default"
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - redis
+      - app
+    networks:
+      - pit-network
+
+    # nginx
+#    nginx:
+#      image: nginx:alpine
+#      restart: unless-stopped
+#      ports:
+#        - "8989:80"
+#      volumes:
+#        - ./:/var/www
+#        - ./docker/nginx/:/etc/nginx/conf.d/
+#      networks:
+#        - pit-network
+
+  # db mysql
+  mysql:
+    image: mysql:5.7.44
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./.docker/mysql/dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - pit-network
+
+  # redis
+  redis:
+    image: redis:latest
+    networks:
+      - pit-network
+
+networks:
+  pit-network:
+    driver: bridge
