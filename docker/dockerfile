@@ -1,0 +1,15 @@
+FROM celsonery/php-laravel-mysql:latest as build
+WORKDIR /usr/local/bin/app
+COPY . ./
+RUN composer update -o --no-dev --with-all-dependencies
+
+
+FROM celsonery/php-laravel-mysql:latest as production
+WORKDIR /usr/local/bin/app
+COPY --from=build /usr/local/bin/app ./
+COPY .env.example .env
+RUN php artisan key:generate
+RUN sed -i 's/APP_ENV=local/APP_ENV=production/' .env
+RUN sed -i 's/APP_DEBUG=true/APP_DEBUG=false/' .env
+EXPOSE 8000
+CMD [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=8000" ]
