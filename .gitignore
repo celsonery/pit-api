@@ -5,6 +5,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/.docker
 .env
 .env.backup
 .env.production
@@ -20,3 +21,5 @@ yarn-error.log
 /.vscode
 /build
 /cache
+/bootstrap/cache/*
+/reports
