@@ -56,6 +56,7 @@ class PasswordResetController extends Controller
             ->addMinutes(720)
             ->isPast()) {
             $passwordReset->delete();
+
             return response()->json(['message' => 'Invalid token!'], 404);
         }
 

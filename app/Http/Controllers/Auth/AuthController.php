@@ -21,21 +21,17 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request): JsonResponse
     {
-        if ($request->validated()) {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'activation_token' => Str::random(60),
-                //                'activation_token' => random_int(100000, 999999)
-            ]);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'activation_token' => Str::random(60),
+            // 'activation_token' => random_int(100000, 999999)
+        ]);
 
-            $user->notify(new RegisterActivate($user));
+        $user->notify(new RegisterActivate($user));
 
-            return response()->json(['message' => 'User created successfully!'], 201);
-        }
-
-        return response()->json(['message' => 'Invalid credentials!'], 403);
+        return response()->json(['message' => 'User created successfully!'], 201);
     }
 
     /**
@@ -43,23 +39,19 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        if ($request->validated()) {
-            $credentials = $request->only(['email', 'password']);
-            $credentials['active'] = 1;
-            $credentials['deleted_at'] = null;
+        $credentials = $request->only(['email', 'password']);
+        $credentials['active'] = 1;
+        $credentials['deleted_at'] = null;
 
-            if (! Auth::attempt($credentials)) {
-                return response()->json(['message' => 'Unauthorized!'], 401);
-            }
-
-            $token = $request->user()->createToken('access_token')->plainTextToken;
-
-//            $token->expires_at = $request->remember_me ? Carbon::now()->addYear() : Carbon::now()->addDay();
-
-            return response()->json(['user' => Auth::user(), 'access_token' => $token], 200);
+        if (!Auth::attempt($credentials)) {
+            return response()->json(['message' => 'Unauthorized!'], 401);
         }
 
-        return response()->json(['message' => 'Invalid credentials'], 403);
+        $token = $request->user()->createToken('access_token')->plainTextToken;
+
+        // $token->expires_at = $request->remember_me ? Carbon::now()->addYear() : Carbon::now()->addDay();
+
+        return response()->json(['user' => Auth::user(), 'access_token' => $token], 200);
     }
 
     /**
@@ -88,14 +80,14 @@ class AuthController extends Controller
     {
         $user = User::where('activation_token', $token)->first();
 
-        if (! $user) {
+        if (!$user) {
             return response()->json(['message' => 'This activation token is invalid!'], 404);
         }
 
         $user->active = true;
         $user->activation_token = '';
 
-        if (! $user->save()) {
+        if (!$user->save()) {
             return response()->json(['message' => 'User activate error!'], 401);
         }
 
@@ -111,7 +103,7 @@ class AuthController extends Controller
     {
         $validated = $this->validateProvider($provider);
 
-        if (! $validated) {
+        if (!$validated) {
             return response()->json(['error' => 'Please login using facebook, github or google'], 422);
         }
 
@@ -125,7 +117,7 @@ class AuthController extends Controller
     {
         $validated = $this->validateProvider($provider);
 
-        if (! $validated) {
+        if (!$validated) {
             return response()->json(['error' => 'Please login using facebook, github or google'], 422);
         }
 
