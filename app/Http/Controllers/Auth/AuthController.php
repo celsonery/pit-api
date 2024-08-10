@@ -43,7 +43,7 @@ class AuthController extends Controller
         $credentials['active'] = 1;
         $credentials['deleted_at'] = null;
 
-        if (!Auth::attempt($credentials)) {
+        if (! Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized!'], 401);
         }
 
@@ -59,7 +59,7 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        if (!Auth::user()->currentAccessToken()->delete()) {
+        if (! Auth::user()->currentAccessToken()->delete()) {
             return response()->json(['message' => 'The user token not revoked!']);
         }
 
@@ -80,14 +80,14 @@ class AuthController extends Controller
     {
         $user = User::where('activation_token', $token)->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json(['message' => 'This activation token is invalid!'], 404);
         }
 
         $user->active = true;
         $user->activation_token = '';
 
-        if (!$user->save()) {
+        if (! $user->save()) {
             return response()->json(['message' => 'User activate error!'], 401);
         }
 
@@ -103,7 +103,7 @@ class AuthController extends Controller
     {
         $validated = $this->validateProvider($provider);
 
-        if (!$validated) {
+        if (! $validated) {
             return response()->json(['error' => 'Please login using facebook, github or google'], 422);
         }
 
@@ -117,7 +117,7 @@ class AuthController extends Controller
     {
         $validated = $this->validateProvider($provider);
 
-        if (!$validated) {
+        if (! $validated) {
             return response()->json(['error' => 'Please login using facebook, github or google'], 422);
         }
 

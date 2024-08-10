@@ -1,0 +1,13 @@
+{
+    "preset": "laravel",
+    "exclude": [
+        ".docker",
+        "reports",
+        "vendor",
+        "node_modules"
+    ],
+    "rules": {
+        "nullable_type_declaration": false,
+        "concat_space": false
+    }
+}

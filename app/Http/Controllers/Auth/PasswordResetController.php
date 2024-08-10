@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FindPasswordRequest;
 use App\Http\Requests\PasswordRequestRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Models\Auth\PasswordReset;
@@ -48,7 +47,7 @@ class PasswordResetController extends Controller
         $passwordReset = PasswordReset::where('token', $token)
             ->first();
 
-        if (!$passwordReset) {
+        if (! $passwordReset) {
             return response()->json(['message' => 'Invalid token!'], 404);
         }
 
@@ -67,7 +66,7 @@ class PasswordResetController extends Controller
     {
         $passwordReset = PasswordReset::where('token', $request->token)->first();
 
-        if (!$passwordReset) {
+        if (! $passwordReset) {
             return response()->json(['message' => 'Invalid token!'], 404);
         }
 
