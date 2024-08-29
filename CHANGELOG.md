@@ -4,6 +4,11 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [0.0.1](https://github.com/celsonery/pit-api/compare/0.0.0...v0.0.1) (2024-08-29)
+
+
+---
+
 ## [1.0.0](https://github.com/celsonery/pit-api/compare/eb11518dcf1a0f30f171b1ab0d9ae0b61d07f72e...v1.0.0) (2024-08-09)
 
 ### Features
