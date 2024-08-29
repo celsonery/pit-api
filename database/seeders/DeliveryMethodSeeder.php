@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\DeliveryMethod;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,6 @@ class DeliveryMethodSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        DeliveryMethod::factory(5)->create();
     }
 }

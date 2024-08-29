@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Sku;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,6 @@ class SkuSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Sku::factory()->create();
     }
 }

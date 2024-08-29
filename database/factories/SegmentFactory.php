@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Segment>
  */
-class SeguimentFactory extends Factory
+class SegmentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class SeguimentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->firstName()
         ];
     }
 }

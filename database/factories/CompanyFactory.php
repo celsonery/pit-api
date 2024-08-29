@@ -17,7 +17,8 @@ class CompanyFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->company(),
+            'cnpj' => fake()->unique()->numberBetween(1000000000, 9999999999)
         ];
     }
 }

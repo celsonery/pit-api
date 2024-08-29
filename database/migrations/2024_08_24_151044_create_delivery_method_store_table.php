@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('delivery_method_id')->constrained('delivery_methods');
             $table->foreignId('store_id')->constrained('stores');
-            $table->softDeletes();
-            $table->timestamps();
         });
     }
 

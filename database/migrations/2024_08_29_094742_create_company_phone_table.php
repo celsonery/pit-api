@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_method_store', function (Blueprint $table) {
+        Schema::create('company_phone', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('payment_method_id')->constrained('payment_methods');
-            $table->foreignId('store_id')->constrained('stores');
+            $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('phone_id')->constrained('phones');
         });
     }
 
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payment_method_store');
+        Schema::dropIfExists('company_phone');
     }
 };
