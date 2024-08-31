@@ -5,62 +5,44 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreImageRequest;
 use App\Http\Requests\UpdateImageRequest;
 use App\Models\Image;
+use App\Services\ImageService;
+use Illuminate\Http\JsonResponse;
 
 class ImageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(protected ImageService $imageService)
     {
-        //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        $images = $this->imageService->list();
+
+        return response()->json($images);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreImageRequest $request)
+    public function store(StoreImageRequest $request): JsonResponse
     {
-        //
+        $imagem = $this->imageService->store($request);
+
+        return response()->json($imagem);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Image $image)
+    public function show(Image $image): JsonResponse
     {
-        //
+        return response()->json($image);
+    }
+    public function update(UpdateImageRequest $request, Image $image): JsonResponse
+    {
+        $image = $this->imageService->update($request, $image);
+
+        return response()->json($image);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Image $image)
+    public function destroy(Image $image): JsonResponse
     {
-        //
-    }
+        $this->imageService->destroy($image);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateImageRequest $request, Image $image)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Image $image)
-    {
-        //
+        return response()->json(['messge' => 'Image deleted!']);
     }
 }

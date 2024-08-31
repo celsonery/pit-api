@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreSkuRequest;
 use App\Http\Requests\UpdateSkuRequest;
 use App\Models\Sku;
+use Illuminate\Http\JsonResponse;
 
 class SkuController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        return response()->json(['message' => 'Sku Works'], 200);
     }
 
     /**

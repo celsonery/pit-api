@@ -5,62 +5,43 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreDeliveryMethodRequest;
 use App\Http\Requests\UpdateDeliveryMethodRequest;
 use App\Models\DeliveryMethod;
+use App\Services\DeliveryMethodService;
+use Illuminate\Http\JsonResponse;
 
 class DeliveryMethodController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(protected DeliveryMethodService $deliveryMethodService)
     {
-        //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        $deliveryMethods = $this->deliveryMethodService->list();
+
+        return response()->json($deliveryMethods);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreDeliveryMethodRequest $request)
+    public function store(StoreDeliveryMethodRequest $request): JsonResponse
     {
-        //
+        return DeliveryMethod::create($request->validated());
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(DeliveryMethod $deliveryMethod)
+    public function show(DeliveryMethod $delivery): JsonResponse
     {
-        //
+        return response()->json($delivery);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(DeliveryMethod $deliveryMethod)
+    public function update(UpdateDeliveryMethodRequest $request, DeliveryMethod $delivery): JsonResponse
     {
-        //
+        $delivery = $this->deliveryMethodService->update($request, $delivery);
+
+        return response()->json($delivery);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateDeliveryMethodRequest $request, DeliveryMethod $deliveryMethod)
+    public function destroy(DeliveryMethod $delivery): JsonResponse
     {
-        //
-    }
+        $this->deliveryMethodService->destroy($delivery);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(DeliveryMethod $deliveryMethod)
-    {
-        //
+        return response()->json(['message' => 'Delivery method deleted!']);
     }
 }

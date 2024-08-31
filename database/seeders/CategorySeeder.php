@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Gtin;
 use App\Models\Image;
 use App\Models\Product;
-use App\Models\Sku;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
@@ -17,7 +17,7 @@ class CategorySeeder extends Seeder
     {
         Category::factory()
             ->has(Product::factory(5)
-                ->has(Sku::factory()
+                ->has(Gtin::factory()
                     ->has(Image::factory(2))))
             ->count(5)
             ->create();

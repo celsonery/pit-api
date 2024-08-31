@@ -5,62 +5,45 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStoreRequest;
 use App\Http\Requests\UpdateStoreRequest;
 use App\Models\Store;
+use App\Services\StoreService;
+use Illuminate\Http\JsonResponse;
 
 class StoreController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(protected StoreService $storeService)
     {
-        //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        $stores = $this->storeService->list();
+
+        return response()->json($stores);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreStoreRequest $request)
-    {
-        //
+   public function store(StoreStoreRequest $request): JsonResponse
+   {
+        $store = $this->storeService->store($request);
+
+        return response()->json($store);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Store $store)
+    public function show(Store $store): JsonResponse
     {
-        //
+        return response()->json($store);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Store $store)
+    public function update(UpdateStoreRequest $request, Store $store): JsonResponse
     {
-        //
+        $store = $this->storeService->update($request, $store);
+
+        return response()->json($store);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateStoreRequest $request, Store $store)
+    public function destroy(Store $store): JsonResponse
     {
-        //
-    }
+        $this->storeService->destroy($store);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Store $store)
-    {
-        //
+        return response()->json(['message' => 'Store deleted!']);
     }
 }

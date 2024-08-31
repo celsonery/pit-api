@@ -6,7 +6,7 @@ use App\Models\Segment;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class SeguimentPolicy
+class SegmentPolicy
 {
     /**
      * Determine whether the user can view any models.

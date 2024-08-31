@@ -12,12 +12,13 @@ class Image extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'gtin_id',
         'url',
         'cover'
     ];
 
-    public function sku(): BelongsTo
+    public function gtin(): BelongsTo
     {
-        return $this->belongsTo(Sku::class);
+        return $this->belongsTo(Gtin::class);
     }
 }

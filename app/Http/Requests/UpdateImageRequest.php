@@ -11,7 +11,7 @@ class UpdateImageRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'gtin_id' => ['required', 'numeric'],
+            'url' => ['required', 'file','image','mimes:jpeg,png,jpg,gif,svg','max:2048']
         ];
     }
 }

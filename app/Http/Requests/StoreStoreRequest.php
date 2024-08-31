@@ -11,7 +11,7 @@ class StoreStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'company_id' => ['required', 'numeric'],
+            'name' => ['required', 'string', 'min:3', 'max:250'],
+            'cnpj' => ['required', 'string', 'min:14', 'max:14']
         ];
     }
 }

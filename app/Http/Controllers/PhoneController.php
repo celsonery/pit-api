@@ -5,62 +5,45 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePhoneRequest;
 use App\Http\Requests\UpdatePhoneRequest;
 use App\Models\Phone;
+use App\Services\PhoneService;
+use Illuminate\Http\JsonResponse;
 
 class PhoneController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(protected PhoneService $phoneService)
     {
-        //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        $phones = $this->phoneService->list();
+
+        return response()->json($phones);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePhoneRequest $request)
+    public function store(StorePhoneRequest $request): JsonResponse
     {
-        //
+        $phone = $this->phoneService->store($request);
+
+        return response()->json($phone);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Phone $phone)
+    public function show(Phone $phone): JsonResponse
     {
-        //
+        return response()->json($phone);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Phone $phone)
+    public function update(UpdatePhoneRequest $request, Phone $phone): JsonResponse
     {
-        //
+        $phone = $this->phoneService->update($request, $phone);
+
+        return response()->json($phone);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePhoneRequest $request, Phone $phone)
+    public function destroy(Phone $phone): JsonResponse
     {
-        //
-    }
+        $this->phoneService->destroy($phone);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Phone $phone)
-    {
-        //
+        return response()->json(['message' => 'Phone deleted!']);
     }
 }

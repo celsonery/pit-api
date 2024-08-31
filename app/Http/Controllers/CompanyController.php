@@ -5,62 +5,45 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use App\Services\CompanyService;
+use Illuminate\Http\JsonResponse;
 
 class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(protected CompanyService $companyService)
     {
-        //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        $companies = $this->companyService->list();
+
+        return response()->json($companies);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreCompanyRequest $request)
     {
-        //
+        $company = $this->companyService->store($request);
+
+        return response()->json($company);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Company $company)
     {
-        //
+        return response()->json($company);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Company $company)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateCompanyRequest $request, Company $company)
     {
-        //
+        $company = $this->companyService->update($request, $company);
+
+        return response()->json($company);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Company $company)
     {
-        //
+        $company = $this->companyService->destroy($company);
+
+        return response()->json(['message' => 'Company deleted!']);
     }
 }

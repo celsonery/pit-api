@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sku_id')->constrained('skus');
+            $table->foreignId('gtin_id')->constrained('gtins');
             $table->string('url');
             $table->boolean('cover')->default(false);
             $table->softDeletes();

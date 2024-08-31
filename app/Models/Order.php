@@ -17,8 +17,8 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function skus(): BelongsToMany
+    public function gtins(): BelongsToMany
     {
-        return $this->belongsToMany(Sku::class);
+        return $this->belongsToMany(Gtin::class);
     }
 }

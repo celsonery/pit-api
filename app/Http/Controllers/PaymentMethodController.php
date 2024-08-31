@@ -5,62 +5,45 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePaymentMethodRequest;
 use App\Http\Requests\UpdatePaymentMethodRequest;
 use App\Models\PaymentMethod;
+use App\Services\PaymentMethodService;
+use Illuminate\Http\JsonResponse;
 
 class PaymentMethodController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(protected PaymentMethodService $paymentMethodService)
     {
-        //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        $payments = $this->paymentMethodService->list();
+
+        return response()->json($payments);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePaymentMethodRequest $request)
+    public function store(StorePaymentMethodRequest $request): PaymentMethod
     {
-        //
+        $payment = $this->paymentMethodService->store($request);
+
+        return response()->json($payment);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(PaymentMethod $paymentMethod)
+    public function show(PaymentMethod $payment): JsonResponse
     {
-        //
+        return response()->json($payment);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PaymentMethod $paymentMethod)
+    public function update(UpdatePaymentMethodRequest $request, PaymentMethod $payment): JsonResponse
     {
-        //
+        $payment = $this->paymentMethodService->update($request, $payment);
+
+        return response()->json($payment);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePaymentMethodRequest $request, PaymentMethod $paymentMethod)
+    public function destroy(PaymentMethod $payment): JsonResponse
     {
-        //
-    }
+        $this->paymentMethodService->destroy($payment);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(PaymentMethod $paymentMethod)
-    {
-        //
+        return response()->json(['message' => 'Payment deleted!']);
     }
 }

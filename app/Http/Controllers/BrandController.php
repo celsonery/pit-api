@@ -5,62 +5,43 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\UpdateBrandRequest;
 use App\Models\Brand;
+use App\Services\BrandService;
+use Illuminate\Http\JsonResponse;
 
 class BrandController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(protected BrandService $brandService)
     {
-        //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        $brands = $this->brandService->list();
+
+        return response()->json($brands);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreBrandRequest $request)
     {
-        //
+        return $this->brandService->store($request);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Brand $brand)
+    public function show(Brand $brand): JsonResponse
     {
-        //
+        return response()->json($brand);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Brand $brand)
+    public function update(UpdateBrandRequest $request, Brand $brand): JsonResponse
     {
-        //
+        $brand = $this->brandService->update($request, $brand);
+
+        return response()->json($brand);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateBrandRequest $request, Brand $brand)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Brand $brand)
     {
-        //
+        $this->brandService->destroy($brand);
+
+        return response()->json(['message' => 'Brand deleted!']);
     }
 }
