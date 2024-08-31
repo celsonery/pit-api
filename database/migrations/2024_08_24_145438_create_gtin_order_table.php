@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_sku', function (Blueprint $table) {
+        Schema::create('gtin_order', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders');
-            $table->foreignId('sku_id')->constrained('skus');
+            $table->foreignId('gtin_id')->constrained('gtins');
             $table->integer('quantity');
             $table->softDeletes();
             $table->timestamps();
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_sku');
+        Schema::dropIfExists('gtin_order');
     }
 };
