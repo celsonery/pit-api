@@ -10,7 +10,16 @@ class ProductService
 {
     public function list()
     {
-        return Product::select(['id', 'name', 'slug', 'feature'])
+        return Product::query()
+            ->with(['gtins' => fn ($gtins) => $gtins->select('id', 'gtin', 'price', 'quantity', 'product_id')
+                ->where('quantity', '>', 0)
+                ->with(['images' => fn ($images) =>
+                $images->select('id', 'cover', 'url', 'gtin_id')
+                    ->where('cover', 1)
+                    ->limit(1)
+            ])
+        ])
+            ->select(['id', 'name'])
             ->paginate();
     }
 
