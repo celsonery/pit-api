@@ -25,8 +25,8 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'activation_token' => Str::random(60),
-            // 'activation_token' => random_int(100000, 999999)
+//            'activation_token' => Str::random(60),
+             'activation_token' => random_int(100000, 999999)
         ]);
 
         $user->notify(new RegisterActivate($user));
