@@ -57,8 +57,8 @@
         "release:patch": "conventional-changelog --patch --commit",
         "release:minor": "conventional-changelog --minor --commit",
         "release:major": "conventional-changelog --major --commit",
-        "tests": "php artisan test",
-        "coverage": "php artisan test --coverage-html reports/"
+        "tests": "@php artisan test",
+        "coverage": "@php artisan test --coverage-html reports/"
     },
     "extra": {
         "laravel": {
