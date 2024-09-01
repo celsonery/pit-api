@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained('products');
             $table->string('gtin');
-            $table->decimal('price');
+            $table->float('price');
             $table->integer('quantity');
             $table->softDeletes();
             $table->timestamps();
