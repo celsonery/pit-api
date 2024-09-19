@@ -21,24 +21,26 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
-   public function store(StoreProductRequest $request)
-    {
+   public function store(StoreProductRequest $request): Product
+   {
         return $this->productService->store($request);
     }
 
-    public function show(Product $product)
+    public function show(int $id)
     {
+        $product = $this->productService->show($id);
+
         return response()->json($product);
     }
 
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product): JsonResponse
     {
         $product = $this->productService->update($request, $product);
 
         return response()->json($product);
     }
 
-    public function destroy(Product $product)
+    public function destroy(Product $product): JsonResponse
     {
         $this->productService->destroy($product);
 

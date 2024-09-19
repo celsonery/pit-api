@@ -19,13 +19,22 @@ class ProductService
                     ->limit(1)
             ])
         ])
-            ->select(['id', 'name'])
+            ->select(['id', 'name', 'slug'])
             ->paginate();
     }
 
     public function store(StoreProductRequest $request): Product
     {
         return Product::create($request->validated());
+    }
+
+    public function show(int $id)
+    {
+        return Product::with(['gtins' => fn($gtins) => $gtins->limit(1)
+            ->with(['images'])
+        ])
+            ->where('id', $id)
+            ->get();
     }
 
     public function update(UpdateProductRequest $request, Product $product): Product
