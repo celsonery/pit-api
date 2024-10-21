@@ -26,6 +26,7 @@ class User extends Authenticatable
         'password',
         'active',
         'activation_token',
+        'role_id'
     ];
 
     /**
@@ -65,5 +66,10 @@ class User extends Authenticatable
     public function addresses(): BelongsToMany
     {
         return $this->belongsToMany(Address::class);
+    }
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class);
     }
 }

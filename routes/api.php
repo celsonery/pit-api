@@ -7,6 +7,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DeliveryMethodController;
+use App\Http\Controllers\FavoritesController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentMethodController;
@@ -35,6 +36,10 @@ Route::group(['prefix' => 'oauth'], function () {
     Route::get('/{provider}', [AuthController::class, 'redirectToProvider'])->name('oauth.redirect');
     Route::get('/{provider}/callback', [AuthController::class, 'handleProviderCallback'])->name('oauth.callback');
 });
+
+Route::apiResource('/products/favorites', FavoritesController::class)
+    ->except(['show', 'update'])
+    ->middleware('auth:sanctum');
 
 Route::apiResource('/segments', SegmentController::class);
 Route::apiResource('/companies', CompanyController::class);

@@ -35,4 +35,9 @@ class Product extends Model
     {
         return $this->hasMany(Gtin::class);
     }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

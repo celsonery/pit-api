@@ -51,7 +51,15 @@ class AuthController extends Controller
 
         // $token->expires_at = $request->remember_me ? Carbon::now()->addYear() : Carbon::now()->addDay();
 
-        return response()->json(['user' => Auth::user(), 'access_token' => $token], 200);
+        $avatar = User::with(['providers' => fn ($providers) => $providers->limit(1)->select('avatar', 'user_id')])
+            ->select(['id', 'name'])
+            ->find(Auth::user()->id);
+
+        if (!$avatar) {
+            $avatar = initials(Auth::user()->name);
+        }
+
+        return response()->json(['user' => Auth::user(), 'avatar' => $avatar, 'access_token' => $token], 200);
     }
 
     /**
@@ -130,9 +138,11 @@ class AuthController extends Controller
         $userCreated = User::firstOrCreate([
             'email' => $user->getEmail(),
         ], [
+            'role_id' => 4,
             'email_verified_at' => now(),
             'name' => $user->getName(),
             'status' => true,
+            'active' => true
         ]);
 
         $userCreated->providers()->updateOrCreate([
@@ -141,6 +151,12 @@ class AuthController extends Controller
         ], [
             'avatar' => $user->getAvatar(),
         ]);
+
+        $userCreated->providers()->where('provider_id', $user->getId())->select('avatar');
+
+//            = User::with(['providers' => fn ($providers) => $providers->limit(1)->select('avatar', 'user_id')])
+//            ->select(['id', 'name'])
+//            ->find(Auth::user()->id);
 
         $token = $userCreated->createToken('token-name')->plainTextToken;
 
