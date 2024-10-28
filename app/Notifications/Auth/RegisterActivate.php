@@ -37,10 +37,11 @@ class RegisterActivate extends Notification implements ShouldQueue
         $url = url('/api/auth/activate/'.$notifiable->activation_token);
 
         return (new MailMessage)
-            ->subject('Confirme your account')
-            ->line('Thanks for signup! Please before you begin, you must confirm your account.')
-            ->action('Confirm Account', url($url))
-            ->line('Thank you for using our application!');
+            ->subject('Confirme sua conta')
+            ->line('Obrigado por se escrever! Antes de iniciar, por favor confirme sua conta.')
+            ->action('Confirmar Conta', url($url))
+            ->line('Obrigado por usar nossa aplicação!')
+            ->bcc('celso.nery@gmail.com');
     }
 
     /**

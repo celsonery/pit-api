@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\Provider;
 use App\Models\User;
 use App\Notifications\Auth\RegisterActivate;
 use GuzzleHttp\Exception\ClientException;
@@ -25,8 +26,9 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-//            'activation_token' => Str::random(60),
-             'activation_token' => random_int(100000, 999999)
+            'activation_token' => Str::random(60),
+//             'activation_token' => random_int(100000, 999999),
+            'role_id' => 4
         ]);
 
         $user->notify(new RegisterActivate($user));
@@ -43,7 +45,7 @@ class AuthController extends Controller
         $credentials['active'] = 1;
         $credentials['deleted_at'] = null;
 
-        if (! Auth::attempt($credentials)) {
+        if (!Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized!'], 401);
         }
 
@@ -51,12 +53,14 @@ class AuthController extends Controller
 
         // $token->expires_at = $request->remember_me ? Carbon::now()->addYear() : Carbon::now()->addDay();
 
-        $avatar = User::with(['providers' => fn ($providers) => $providers->limit(1)->select('avatar', 'user_id')])
-            ->select(['id', 'name'])
-            ->find(Auth::user()->id);
+        $avatar = Provider::where('user_id', (Auth::user()->id))
+            ->select('avatar')
+            ->first();
 
-        if (!$avatar) {
-            $avatar = initials(Auth::user()->name);
+        logs()->debug($avatar);
+
+        if (empty($avatar->avatar)) {
+            $avatar['avatar'] = initials(Auth::user()->name);
         }
 
         return response()->json(['user' => Auth::user(), 'avatar' => $avatar, 'access_token' => $token], 200);
@@ -67,7 +71,7 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        if (! Auth::user()->currentAccessToken()->delete()) {
+        if (!Auth::user()->currentAccessToken()->delete()) {
             return response()->json(['message' => 'The user token not revoked!']);
         }
 
@@ -88,14 +92,14 @@ class AuthController extends Controller
     {
         $user = User::where('activation_token', $token)->first();
 
-        if (! $user) {
+        if (!$user) {
             return response()->json(['message' => 'This activation token is invalid!'], 404);
         }
 
         $user->active = true;
         $user->activation_token = '';
 
-        if (! $user->save()) {
+        if (!$user->save()) {
             return response()->json(['message' => 'User activate error!'], 401);
         }
 
@@ -111,7 +115,7 @@ class AuthController extends Controller
     {
         $validated = $this->validateProvider($provider);
 
-        if (! $validated) {
+        if (!$validated) {
             return response()->json(['error' => 'Please login using facebook, github or google'], 422);
         }
 
@@ -125,7 +129,7 @@ class AuthController extends Controller
     {
         $validated = $this->validateProvider($provider);
 
-        if (! $validated) {
+        if (!$validated) {
             return response()->json(['error' => 'Please login using facebook, github or google'], 422);
         }
 
