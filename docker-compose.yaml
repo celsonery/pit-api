@@ -33,17 +33,6 @@ services:
     networks:
       - pit-network
 
-#    nginx:
-#      image: nginx:alpine
-#      restart: unless-stopped
-#      ports:
-#        - "8989:80"
-#      volumes:
-#        - ./:/var/www
-#        - ./docker/nginx/:/etc/nginx/conf.d/
-#      networks:
-#        - pit-network
-
   mysql:
     image: mysql:5.7.44
     restart: always

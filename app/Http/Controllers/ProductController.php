@@ -26,7 +26,7 @@ class ProductController extends Controller
         return $this->productService->store($request);
     }
 
-    public function show(int $id)
+    public function show(int $id): JsonResponse
     {
         $product = $this->productService->show($id);
 

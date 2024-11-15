@@ -10,28 +10,24 @@ class FavoriteService
 {
     public function list()
     {
-        return Auth::user()->products()
-            ->with(['gtins' => fn ($gtins) => $gtins->select('id', 'gtin', 'price', 'quantity', 'product_id')
+        return auth()->user()->products()
+            ->with(['gtins' => fn ($gtins) => $gtins
                 ->where('quantity', '>', 0)
-                ->with(['images' => fn ($images) =>
-                $images->select('id', 'cover', 'url', 'gtin_id')
+                ->with(['images' => fn ($img) => $img
                     ->where('cover', 1)
-                    ->limit(1)
-                ])
-            ])
-            ->select(['product_id', 'name'])
-            ->paginate();
+                    ->limit(1)])])
+            ->get();
     }
 
     public function store(Request $request)
     {
-        return Auth::user()->products()
+        return auth()->user()->products()
             ->attach([$request->id]);
     }
 
     public function destroy(Product $favorite)
     {
-        return Auth::user()->products()
+        return auth()->user()->products()
             ->detach([$favorite->id]);
     }
 }

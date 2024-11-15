@@ -109,17 +109,17 @@ class AuthController extends Controller
     /**
      * Redirect the user to the Provider authentication page.
      *
-     * @return JsonResponse
+     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function redirectToProvider(string $provider)
     {
-        $validated = $this->validateProvider($provider);
+//        $validated = $this->validateProvider($provider);
+//
+//        if (!$validated) {
+//            return response()->json(['error' => 'Please login using facebook, github or google'], 422);
+//        }
 
-        if (!$validated) {
-            return response()->json(['error' => 'Please login using facebook, github or google'], 422);
-        }
-
-        return Socialite::driver($provider)->stateless()->redirect();
+        return Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
     }
 
     /**
@@ -127,11 +127,11 @@ class AuthController extends Controller
      */
     public function handleProviderCallback(string $provider): JsonResponse
     {
-        $validated = $this->validateProvider($provider);
-
-        if (!$validated) {
-            return response()->json(['error' => 'Please login using facebook, github or google'], 422);
-        }
+//        $validated = $this->validateProvider($provider);
+//
+//        if (!$validated) {
+//            return response()->json(['error' => 'Please login using facebook, github or google'], 422);
+//        }
 
         try {
             $user = Socialite::driver($provider)->stateless()->user();
