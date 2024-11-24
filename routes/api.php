@@ -15,6 +15,7 @@ use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SegmentController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'auth'], function () {
@@ -36,19 +37,28 @@ Route::group(['prefix' => 'oauth'], function () {
     Route::get('/{provider}/callback', [AuthController::class, 'handleProviderCallback'])->name('oauth.callback');
 });
 
-Route::apiResource('/products/favorites', FavoritesController::class)
-    ->except(['show', 'update'])
-    ->middleware('auth:sanctum');
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::apiResource('/products/favorites', FavoritesController::class)
+        ->except(['show', 'update']);
 
-Route::apiResource('/segments', SegmentController::class);
-Route::apiResource('/companies', CompanyController::class);
-Route::apiResource('/brands', BrandController::class);
-Route::apiResource('/categories', CategoryController::class);
+    Route::apiResource('/orders', OrderController::class)
+        ->only(['index', 'store', 'show']);
+
+//    Route::apiResource('/addresses', AddressController::class);
+//    Route::apiResource('/payments', PaymentMethodController::class);
+
+//    Route::apiResource('/phones', PhoneController::class);
+//    Route::apiResource('/segments', SegmentController::class);
+//    Route::apiResource('/companies', CompanyController::class);
+//    Route::apiResource('/brands', BrandController::class);
+//    Route::apiResource('/categories', CategoryController::class);
+//    Route::apiResource('/products', ProductController::class);
+//    Route::apiResource('/deliveries', DeliveryMethodController::class);
+//    Route::apiResource('/images', ImageController::class);
+//    Route::apiResource('/stores', StoreController::class);
+    Route::put('/user', [UserController::class, 'update']);
+});
+
 Route::apiResource('/products', ProductController::class);
-Route::apiResource('/addresses', AddressController::class);
-Route::apiResource('/deliveries', DeliveryMethodController::class);
-Route::apiResource('/images', ImageController::class);
-Route::apiResource('/orders', OrderController::class)->only(['index', 'store']);
-Route::apiResource('/payments', PaymentMethodController::class);
-Route::apiResource('/phones', PhoneController::class);
-Route::apiResource('/stores', StoreController::class);
+
+
