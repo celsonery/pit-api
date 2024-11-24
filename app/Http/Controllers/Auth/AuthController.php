@@ -49,21 +49,23 @@ class AuthController extends Controller
             return response()->json(['message' => 'Unauthorized!'], 401);
         }
 
-        $token = $request->user()->createToken('access_token')->plainTextToken;
+        $userLogged = \auth()->user();
+
+        $userLogged['access_token'] = $request->user()->createToken('access_token')->plainTextToken;
 
         // $token->expires_at = $request->remember_me ? Carbon::now()->addYear() : Carbon::now()->addDay();
 
-        $avatar = Provider::where('user_id', (Auth::user()->id))
+        $avatar = Provider::where('user_id', ($userLogged->id))
             ->select('avatar')
             ->first();
 
-        logs()->debug($avatar);
-
         if (empty($avatar->avatar)) {
-            $avatar['avatar'] = initials(Auth::user()->name);
+            $userLogged['avatar'] = initials($userLogged->name);
+        } else {
+            $userLogged['avatar'] = $avatar['avatar'];
         }
 
-        return response()->json(['user' => Auth::user(), 'avatar' => $avatar, 'access_token' => $token], 200);
+        return response()->json(['user' => $userLogged], 200);
     }
 
     /**
@@ -85,7 +87,19 @@ class AuthController extends Controller
      */
     public function user(): JsonResponse
     {
-        return response()->json(auth()->user());
+        $userLogged = \auth()->user();
+
+        $avatar = Provider::where('user_id', (auth()->user()->id))
+            ->select('avatar')
+            ->first();
+
+        if (empty($avatar->avatar)) {
+            $userLogged['avatar'] = initials($userLogged->name);
+        } else {
+            $userLogged['avatar'] = $avatar['avatar'];
+        }
+
+        return response()->json(['user' => $userLogged], 200);
     }
 
     public function activate($token): JsonResponse
