@@ -31,12 +31,12 @@ class PasswordResetRequest extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $url = url('/api/auth/password/find/'.$this->token);
+        //$url = url('/api/auth/password/find/'.$this->token);
 
         return (new MailMessage)
             ->subject('Recuperar senha da conta')
             ->line('Você está recebendo este e-mail, porque nós recebemos um pedido de recuperação a senha da sua conta.')
-            ->action('Recuperar Senha', url($url))
+            ->action($this->token, null)
             ->line('Se não foi você quem fez essa solicitação, por favor proteja sua conta!');
     }
 
