@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class FavoriteService
 {
@@ -12,7 +11,6 @@ class FavoriteService
     {
         return auth()->user()->products()
             ->with(['gtins' => fn ($gtins) => $gtins
-                ->where('quantity', '>', 0)
                 ->with(['images' => fn ($img) => $img
                     ->where('cover', 1)
                     ->limit(1)])])
