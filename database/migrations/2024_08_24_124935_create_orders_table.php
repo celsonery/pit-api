@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->uuid();
             $table->foreignId('user_id')->constrained('users');
-            $table->decimal('total');
+            $table->float('total');
+            $table->string('status', 20);
+            $table->string('bgcolor', 20);
             $table->softDeletes();
             $table->timestamps();
         });
