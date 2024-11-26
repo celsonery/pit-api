@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained('orders');
             $table->foreignId('gtin_id')->constrained('gtins');
-            $table->integer('quantity');
+            $table->integer('quantity')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });
