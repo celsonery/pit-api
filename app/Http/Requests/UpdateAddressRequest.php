@@ -30,7 +30,7 @@ class UpdateAddressRequest extends FormRequest
             'province' => ['required', 'string'],
             'reference' => ['nullable', 'string'],
             'main' => ['nullable', 'boolean'],
-            'nickname' => ['nullable', 'string']
+            'nickname' => ['nullable', 'string'],
         ];
     }
 }

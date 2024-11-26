@@ -22,7 +22,7 @@ class StoreSegmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:3', 'max:250', 'unique:segments']
+            'name' => ['required', 'string', 'min:3', 'max:250', 'unique:segments'],
         ];
     }
 }

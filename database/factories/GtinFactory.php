@@ -21,7 +21,7 @@ class GtinFactory extends Factory
             'product_id' => Product::factory(),
             'gtin' => fake()->numberBetween(10000000000000, 9999999999999),
             'price' => fake()->randomFloat(2, 10, 1000),
-            'quantity' => fake()->randomNumber(1, 300)
+            'quantity' => fake()->randomNumber(1, 300),
         ];
     }
 }

@@ -10,9 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class StoreController extends Controller
 {
-    public function __construct(protected StoreService $storeService)
-    {
-    }
+    public function __construct(protected StoreService $storeService) {}
 
     public function index(): JsonResponse
     {
@@ -21,8 +19,8 @@ class StoreController extends Controller
         return response()->json($stores);
     }
 
-   public function store(StoreStoreRequest $request): JsonResponse
-   {
+    public function store(StoreStoreRequest $request): JsonResponse
+    {
         $store = $this->storeService->store($request);
 
         return response()->json($store);

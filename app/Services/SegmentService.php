@@ -6,7 +6,6 @@ use App\Http\Requests\StoreSegmentRequest;
 use App\Http\Requests\UpdateSegmentRequest;
 use App\Models\Segment;
 
-
 class SegmentService
 {
     public function list()

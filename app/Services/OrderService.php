@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Http\Requests\StoreOrderRequest;
 use App\Models\Gtin;
 use App\Models\Order;
-use App\Models\User;
 
 class OrderService
 {
@@ -21,7 +19,7 @@ class OrderService
         $order = auth()->user()->orders()->create([
             'total' => 0,
             'status' => 'realizado',
-            'bgcolor' => 'bg-blue-500'
+            'bgcolor' => 'bg-blue-500',
         ]);
 
         foreach ($pedido as $item) {
@@ -45,11 +43,11 @@ class OrderService
         }
 
         return auth()->user()->orders()
-            ->with(['gtins' => fn($gtins) => $gtins
-                ->with(['images' => fn($img) => $img
+            ->with(['gtins' => fn ($gtins) => $gtins
+                ->with(['images' => fn ($img) => $img
                     ->select('id', 'url', 'cover', 'gtin_id')
                     ->where('cover', 1)
-                    ->limit(1), 'product' => fn($prod) => $prod
+                    ->limit(1), 'product' => fn ($prod) => $prod
                     ->select('id', 'name')])])
             ->where('id', $order->id)
             ->select('id', 'user_id', 'created_at', 'total', 'status', 'bgcolor')

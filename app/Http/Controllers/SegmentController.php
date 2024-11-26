@@ -10,9 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class SegmentController extends Controller
 {
-    public function __construct(protected SegmentService $segmentService)
-    {
-    }
+    public function __construct(protected SegmentService $segmentService) {}
 
     public function index(): JsonResponse
     {
@@ -20,7 +18,6 @@ class SegmentController extends Controller
 
         return response()->json($segment);
     }
-
 
     public function store(StoreSegmentRequest $request): JsonResponse
     {
@@ -36,7 +33,7 @@ class SegmentController extends Controller
 
     public function update(UpdateSegmentRequest $request, Segment $segment): JsonResponse
     {
-        $segment =  $this->segmentService->update($request, $segment);
+        $segment = $this->segmentService->update($request, $segment);
 
         return response()->json($segment);
     }

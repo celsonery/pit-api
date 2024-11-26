@@ -11,9 +11,7 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function __construct(protected ProductService $productService)
-    {
-    }
+    public function __construct(protected ProductService $productService) {}
 
     public function index(Request $request): JsonResponse
     {
@@ -26,8 +24,8 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
-   public function store(StoreProductRequest $request): Product
-   {
+    public function store(StoreProductRequest $request): Product
+    {
         return $this->productService->store($request);
     }
 

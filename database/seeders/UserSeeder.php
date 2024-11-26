@@ -6,7 +6,6 @@ use App\Models\Address;
 use App\Models\Order;
 use App\Models\Phone;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder

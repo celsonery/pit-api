@@ -10,9 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class AddressController extends Controller
 {
-    public function __construct(protected AddressService $addressService)
-    {
-    }
+    public function __construct(protected AddressService $addressService) {}
 
     public function index(): JsonResponse
     {

@@ -18,7 +18,7 @@ class PhoneFactory extends Factory
     {
         return [
             'number' => fake()->numberBetween(10000000000, 99999999999),
-            'type' => fake()->word()
+            'type' => fake()->word(),
         ];
     }
 }

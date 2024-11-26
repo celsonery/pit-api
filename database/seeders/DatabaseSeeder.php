@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Company;
 use Illuminate\Database\Seeder;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -21,7 +20,7 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             ProductSeeder::class,
             PaymentMethodSeeder::class,
-            DeliveryMethodSeeder::class
+            DeliveryMethodSeeder::class,
         ]);
     }
 }

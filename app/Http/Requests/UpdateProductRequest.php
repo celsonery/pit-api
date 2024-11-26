@@ -24,7 +24,7 @@ class UpdateProductRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'min:3', 'max:250'],
             'description' => ['required', 'string', 'min:3'],
-            'feature' => ['required', 'boolean']
+            'feature' => ['required', 'boolean'],
         ];
     }
 }

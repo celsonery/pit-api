@@ -19,6 +19,7 @@ use Laravel\Socialite\Facades\Socialite;
 class AuthController extends Controller
 {
     use Initials;
+
     /**
      * Register a new user.
      */
@@ -28,13 +29,13 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-//            'activation_token' => Str::random(60),
-//            'activation_token' => random_int(100000, 999999),
+            //            'activation_token' => Str::random(60),
+            //            'activation_token' => random_int(100000, 999999),
             'role_id' => 4,
-            'active' => 1
+            'active' => 1,
         ]);
 
-//        $user->notify(new RegisterActivate($user));
+        //        $user->notify(new RegisterActivate($user));
         $access_token = $user->createToken('access_token')->plainTextToken;
 
         return response()->json(['access_token' => $access_token, 'message' => 'User created successfully!'], 201);
@@ -49,7 +50,7 @@ class AuthController extends Controller
         $credentials['active'] = 1;
         $credentials['deleted_at'] = null;
 
-        if (!Auth::attempt($credentials)) {
+        if (! Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized!'], 401);
         }
 
@@ -64,7 +65,7 @@ class AuthController extends Controller
             ->first();
 
         if (empty($avatar->avatar)) {
-//            $userLogged['avatar'] = initials($userLogged->name);
+            //            $userLogged['avatar'] = initials($userLogged->name);
             $userLogged['avatar'] = $this->getInitials($userLogged->name);
         } else {
             $userLogged['avatar'] = $avatar['avatar'];
@@ -78,7 +79,7 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        if (!Auth::user()->currentAccessToken()->delete()) {
+        if (! Auth::user()->currentAccessToken()->delete()) {
             return response()->json(['message' => 'The user token not revoked!']);
         }
 
@@ -111,14 +112,14 @@ class AuthController extends Controller
     {
         $user = User::where('activation_token', $token)->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json(['message' => 'This activation token is invalid!'], 404);
         }
 
         $user->active = true;
         $user->activation_token = '';
 
-        if (!$user->save()) {
+        if (! $user->save()) {
             return response()->json(['message' => 'User activate error!'], 401);
         }
 
@@ -132,11 +133,11 @@ class AuthController extends Controller
      */
     public function redirectToProvider(string $provider)
     {
-//        $validated = $this->validateProvider($provider);
-//
-//        if (!$validated) {
-//            return response()->json(['error' => 'Please login using facebook, github or google'], 422);
-//        }
+        //        $validated = $this->validateProvider($provider);
+        //
+        //        if (!$validated) {
+        //            return response()->json(['error' => 'Please login using facebook, github or google'], 422);
+        //        }
 
         return Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
     }
@@ -146,11 +147,11 @@ class AuthController extends Controller
      */
     public function handleProviderCallback(string $provider): JsonResponse
     {
-//        $validated = $this->validateProvider($provider);
-//
-//        if (!$validated) {
-//            return response()->json(['error' => 'Please login using facebook, github or google'], 422);
-//        }
+        //        $validated = $this->validateProvider($provider);
+        //
+        //        if (!$validated) {
+        //            return response()->json(['error' => 'Please login using facebook, github or google'], 422);
+        //        }
 
         try {
             $user = Socialite::driver($provider)->stateless()->user();
@@ -165,7 +166,7 @@ class AuthController extends Controller
             'email_verified_at' => now(),
             'name' => $user->getName(),
             'status' => true,
-            'active' => true
+            'active' => true,
         ]);
 
         $userCreated->providers()->updateOrCreate([
@@ -177,9 +178,9 @@ class AuthController extends Controller
 
         $userCreated->providers()->where('provider_id', $user->getId())->select('avatar');
 
-//            = User::with(['providers' => fn ($providers) => $providers->limit(1)->select('avatar', 'user_id')])
-//            ->select(['id', 'name'])
-//            ->find(Auth::user()->id);
+        //            = User::with(['providers' => fn ($providers) => $providers->limit(1)->select('avatar', 'user_id')])
+        //            ->select(['id', 'name'])
+        //            ->find(Auth::user()->id);
 
         $token = $userCreated->createToken('token-name')->plainTextToken;
 

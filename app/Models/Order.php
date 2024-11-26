@@ -20,7 +20,7 @@ class Order extends Model
         'uuid',
         'total',
         'status',
-        'bgcolor'
+        'bgcolor',
     ];
 
     public function user(): BelongsTo

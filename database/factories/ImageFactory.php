@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Gtin;
-use App\Models\Sku;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +20,7 @@ class ImageFactory extends Factory
         return [
             'gtin_id' => Gtin::factory(),
             'url' => fake()->imageUrl(),
-            'cover' => fake()->boolean()
+            'cover' => fake()->boolean(),
         ];
     }
 }

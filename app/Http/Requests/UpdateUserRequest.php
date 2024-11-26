@@ -24,7 +24,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => ['min:3', 'max:200'],
             'email' => ['email'],
-            'password' => ['min:3', 'max:200', 'confirmed']
+            'password' => ['min:3', 'max:200', 'confirmed'],
         ];
     }
 }

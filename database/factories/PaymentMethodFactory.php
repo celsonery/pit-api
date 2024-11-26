@@ -18,7 +18,7 @@ class PaymentMethodFactory extends Factory
     {
         return [
             'name' => fake()->word(),
-            'icon' => fake()->imageUrl()
+            'icon' => fake()->imageUrl(),
         ];
     }
 }

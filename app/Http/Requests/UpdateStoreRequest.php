@@ -24,7 +24,7 @@ class UpdateStoreRequest extends FormRequest
         return [
             'company_id' => ['required', 'numeric'],
             'name' => ['required', 'string', 'min:3', 'max:250'],
-            'cnpj' => ['required', 'string', 'min:14', 'max:14']
+            'cnpj' => ['required', 'string', 'min:14', 'max:14'],
         ];
     }
 }

@@ -9,9 +9,7 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function __construct(protected OrderService $orderService)
-    {
-    }
+    public function __construct(protected OrderService $orderService) {}
 
     public function index(): JsonResponse
     {
@@ -23,6 +21,7 @@ class OrderController extends Controller
     public function store(Request $request): JsonResponse
     {
         $order = $this->orderService->store($request['order']);
+
         return response()->json($order);
     }
 

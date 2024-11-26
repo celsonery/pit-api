@@ -17,13 +17,13 @@ class PasswordResetController extends Controller
 {
     public function create(PasswordRequestRequest $request): JsonResponse
     {
-        if (!$request->validated()) {
+        if (! $request->validated()) {
             return response()->json(['message' => 'Invalid data received!'], 404);
         }
 
         $user = User::where('email', $request->email)->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json(['message' => 'We cannot find a user with that e-mail address.'], 404);
         }
 
@@ -31,8 +31,8 @@ class PasswordResetController extends Controller
             ['email' => $user->email],
             [
                 'email' => $user->email,
-//                'token' => Str::random(60),
-                'token' => random_int(100000, 999999)
+                //                'token' => Str::random(60),
+                'token' => random_int(100000, 999999),
             ]
         );
 
@@ -48,7 +48,7 @@ class PasswordResetController extends Controller
         $passwordReset = PasswordReset::where('token', $token)
             ->first();
 
-        if (!$passwordReset) {
+        if (! $passwordReset) {
             return response()->json(['message' => 'Invalid token!'], 404);
         }
 
@@ -67,7 +67,7 @@ class PasswordResetController extends Controller
     {
         $passwordReset = PasswordReset::where('token', $request->token)->first();
 
-        if (!$passwordReset) {
+        if (! $passwordReset) {
             return response()->json(['message' => 'Invalid token!'], 404);
         }
 

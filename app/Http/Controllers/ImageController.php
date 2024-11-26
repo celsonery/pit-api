@@ -10,9 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class ImageController extends Controller
 {
-    public function __construct(protected ImageService $imageService)
-    {
-    }
+    public function __construct(protected ImageService $imageService) {}
 
     public function index(): JsonResponse
     {
@@ -32,6 +30,7 @@ class ImageController extends Controller
     {
         return response()->json($image);
     }
+
     public function update(UpdateImageRequest $request, Image $image): JsonResponse
     {
         $image = $this->imageService->update($request, $image);

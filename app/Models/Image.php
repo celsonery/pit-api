@@ -14,7 +14,7 @@ class Image extends Model
     protected $fillable = [
         'gtin_id',
         'url',
-        'cover'
+        'cover',
     ];
 
     public function gtin(): BelongsTo

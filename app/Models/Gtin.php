@@ -16,7 +16,7 @@ class Gtin extends Model
     protected $fillable = [
         'gtin',
         'price',
-        'quantity'
+        'quantity',
     ];
 
     public function product(): BelongsTo

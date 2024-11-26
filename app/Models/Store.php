@@ -18,7 +18,7 @@ class Store extends Model
     protected $fillable = [
         'company_id',
         'name',
-        'cnpj'
+        'cnpj',
     ];
 
     public function company(): BelongsTo

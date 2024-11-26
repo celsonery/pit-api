@@ -23,7 +23,7 @@ class UpdateImageRequest extends FormRequest
     {
         return [
             'gtin_id' => ['required', 'numeric'],
-            'url' => ['required', 'file','image','mimes:jpeg,png,jpg,gif,svg','max:2048']
+            'url' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ];
     }
 }

@@ -18,7 +18,7 @@ class CompanyFactory extends Factory
     {
         return [
             'name' => fake()->company(),
-            'cnpj' => fake()->unique()->numberBetween(1000000000, 9999999999)
+            'cnpj' => fake()->unique()->numberBetween(1000000000, 9999999999),
         ];
     }
 }

@@ -13,7 +13,7 @@ class Phone extends Model
 
     protected $fillable = [
         'number',
-        'type'
+        'type',
     ];
 
     public function user(): BelongsToMany

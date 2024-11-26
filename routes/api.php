@@ -44,21 +44,19 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('/orders', OrderController::class)
         ->only(['index', 'store', 'show']);
 
-//    Route::apiResource('/addresses', AddressController::class);
-//    Route::apiResource('/payments', PaymentMethodController::class);
+    //    Route::apiResource('/addresses', AddressController::class);
+    //    Route::apiResource('/payments', PaymentMethodController::class);
 
-//    Route::apiResource('/phones', PhoneController::class);
-//    Route::apiResource('/segments', SegmentController::class);
-//    Route::apiResource('/companies', CompanyController::class);
-//    Route::apiResource('/brands', BrandController::class);
-//    Route::apiResource('/categories', CategoryController::class);
-//    Route::apiResource('/products', ProductController::class);
-//    Route::apiResource('/deliveries', DeliveryMethodController::class);
-//    Route::apiResource('/images', ImageController::class);
-//    Route::apiResource('/stores', StoreController::class);
+    //    Route::apiResource('/phones', PhoneController::class);
+    //    Route::apiResource('/segments', SegmentController::class);
+    //    Route::apiResource('/companies', CompanyController::class);
+    //    Route::apiResource('/brands', BrandController::class);
+    //    Route::apiResource('/categories', CategoryController::class);
+    //    Route::apiResource('/products', ProductController::class);
+    //    Route::apiResource('/deliveries', DeliveryMethodController::class);
+    //    Route::apiResource('/images', ImageController::class);
+    //    Route::apiResource('/stores', StoreController::class);
     Route::put('/user', [UserController::class, 'update']);
 });
 
 Route::apiResource('/products', ProductController::class);
-
-

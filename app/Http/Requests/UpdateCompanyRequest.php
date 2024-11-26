@@ -23,7 +23,7 @@ class UpdateCompanyRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3', 'max:250'],
-            'cnpj' => ['required', 'string', 'min:14', 'max:14']
+            'cnpj' => ['required', 'string', 'min:14', 'max:14'],
         ];
     }
 }

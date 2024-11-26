@@ -23,7 +23,7 @@ class UpdatePhoneRequest extends FormRequest
     {
         return [
             'number' => ['required', 'numeric'],
-            'type' => ['required', 'string', 'min:3', 'max:250']
+            'type' => ['required', 'string', 'min:3', 'max:250'],
         ];
     }
 }

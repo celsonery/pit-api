@@ -20,7 +20,7 @@ class Address extends Model
         'province',
         'reference',
         'main',
-        'nickname'
+        'nickname',
     ];
 
     public function users(): BelongsToMany

@@ -10,9 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class PhoneController extends Controller
 {
-    public function __construct(protected PhoneService $phoneService)
-    {
-    }
+    public function __construct(protected PhoneService $phoneService) {}
 
     public function index(): JsonResponse
     {

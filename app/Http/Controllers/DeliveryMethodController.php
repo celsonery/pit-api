@@ -10,9 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class DeliveryMethodController extends Controller
 {
-    public function __construct(protected DeliveryMethodService $deliveryMethodService)
-    {
-    }
+    public function __construct(protected DeliveryMethodService $deliveryMethodService) {}
 
     public function index(): JsonResponse
     {

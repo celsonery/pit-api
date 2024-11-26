@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,7 +25,7 @@ class AddressFactory extends Factory
             'province' => fake()->word(),
             'reference' => fake()->sentence(),
             'main' => fake()->boolean,
-            'nickname' => fake()->name()
+            'nickname' => fake()->name(),
         ];
     }
 }

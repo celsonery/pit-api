@@ -9,10 +9,7 @@ use Illuminate\Http\Request;
 
 class FavoritesController extends Controller
 {
-
-    public function __construct(protected FavoriteService $favoriteService)
-    {
-    }
+    public function __construct(protected FavoriteService $favoriteService) {}
 
     public function index(): JsonResponse
     {
@@ -26,7 +23,6 @@ class FavoritesController extends Controller
     {
         return $this->favoriteService->store($request);
     }
-
 
     public function destroy(Product $favorite): JsonResponse
     {

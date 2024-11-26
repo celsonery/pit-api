@@ -4,7 +4,6 @@ namespace App\Observers;
 
 use App\Models\Order;
 use Illuminate\Support\Str;
-use Ramsey\Uuid\Uuid;
 
 class OrderObserver
 {

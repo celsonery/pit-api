@@ -14,7 +14,7 @@ class Company extends Model
 
     protected $fillable = [
         'name',
-        'cnpj'
+        'cnpj',
     ];
 
     public function segments(): BelongsToMany

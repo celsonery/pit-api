@@ -21,7 +21,7 @@ class StoreFactory extends Factory
             'uuid' => fake()->uuid,
             'company_id' => Company::factory(),
             'name' => fake()->name(),
-            'cnpj' => fake()->unique()->numberBetween(1000000000, 9999999999)
+            'cnpj' => fake()->unique()->numberBetween(1000000000, 9999999999),
         ];
     }
 }

@@ -10,9 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class PaymentMethodController extends Controller
 {
-    public function __construct(protected PaymentMethodService $paymentMethodService)
-    {
-    }
+    public function __construct(protected PaymentMethodService $paymentMethodService) {}
 
     public function index(): JsonResponse
     {

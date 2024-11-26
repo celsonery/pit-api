@@ -23,7 +23,7 @@ class UpdatePaymentMethodRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3', 'max:250'],
-            'icon' => ['nullable', 'file','image','mimes:jpeg,png,jpg,gif,svg','max:2048']
+            'icon' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
         ];
     }
 }

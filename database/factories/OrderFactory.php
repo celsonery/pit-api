@@ -20,7 +20,7 @@ class OrderFactory extends Factory
         return [
             'uuid' => fake()->uuid(),
             'user_id' => User::factory(),
-            'total' => fake()->randomFloat(10, 999)
+            'total' => fake()->randomFloat(10, 999),
         ];
     }
 }
