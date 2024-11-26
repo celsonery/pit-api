@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -14,8 +15,12 @@ class ProductController extends Controller
     {
     }
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
+        if ($request->search) {
+            logs()->debug('Realizando busca: ', $request->search);
+        }
+
         $products = $this->productService->list();
 
         return response()->json($products);

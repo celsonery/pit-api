@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a924272ba031efde98bbf7c5eb6d174",
+    "content-hash": "6a851d5af4e8e48268255a4688e3e2e4",
     "packages": [
         {
             "name": "brick/math",
@@ -134,6 +134,56 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "celsonery/initials",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/celsonery/initials.git",
+                "reference": "211ea2aa1a6b35e5c60889bfc2434e8ee747088c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/celsonery/initials/zipball/211ea2aa1a6b35e5c60889bfc2434e8ee747088c",
+                "reference": "211ea2aa1a6b35e5c60889bfc2434e8ee747088c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Celsonery\\Initials\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Celso Nery",
+                    "email": "celso.nery@gmail.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Package to return initials of names",
+            "keywords": [
+                "Initials",
+                "first characters names",
+                "initial",
+                "initial names"
+            ],
+            "support": {
+                "issues": "https://github.com/celsonery/initials/issues",
+                "source": "https://github.com/celsonery/initials/tree/1.0.1"
+            },
+            "time": "2024-10-27T15:51:35+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
