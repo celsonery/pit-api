@@ -8,6 +8,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\Provider;
 use App\Models\User;
 use App\Notifications\Auth\RegisterActivate;
+use CelsoNery\Initials\Services\Traits\Initials;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
+    use Initials;
     /**
      * Register a new user.
      */
@@ -26,14 +28,16 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'activation_token' => Str::random(60),
-//             'activation_token' => random_int(100000, 999999),
-            'role_id' => 4
+//            'activation_token' => Str::random(60),
+//            'activation_token' => random_int(100000, 999999),
+            'role_id' => 4,
+            'active' => 1
         ]);
 
-        $user->notify(new RegisterActivate($user));
+//        $user->notify(new RegisterActivate($user));
+        $access_token = $user->createToken('access_token')->plainTextToken;
 
-        return response()->json(['message' => 'User created successfully!'], 201);
+        return response()->json(['access_token' => $access_token, 'message' => 'User created successfully!'], 201);
     }
 
     /**
@@ -60,7 +64,8 @@ class AuthController extends Controller
             ->first();
 
         if (empty($avatar->avatar)) {
-            $userLogged['avatar'] = initials($userLogged->name);
+//            $userLogged['avatar'] = initials($userLogged->name);
+            $userLogged['avatar'] = $this->getInitials($userLogged->name);
         } else {
             $userLogged['avatar'] = $avatar['avatar'];
         }
@@ -94,7 +99,7 @@ class AuthController extends Controller
             ->first();
 
         if (empty($avatar->avatar)) {
-            $userLogged['avatar'] = initials($userLogged->name);
+            $userLogged['avatar'] = $this->getInitials($userLogged->name);
         } else {
             $userLogged['avatar'] = $avatar['avatar'];
         }
