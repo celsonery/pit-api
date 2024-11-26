@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Http\Requests\StoreOrderRequest;
+use App\Models\Gtin;
 use App\Models\Order;
+use App\Models\User;
 
 class OrderService
 {
@@ -12,9 +14,28 @@ class OrderService
         return auth()->user()->orders()->get();
     }
 
-    public function store(StoreOrderRequest $request): Order
+    public function store(array $pedido)
     {
-        return Order::create($request->validated());
+        $totalOrder = 0;
+
+        $order = auth()->user()->orders()->create([
+            'total' => 0,
+            'status' => 'realizado',
+            'bgcolor' => 'bg-blue-500'
+        ]);
+
+        foreach ($pedido as $item) {
+            $productGtin = Gtin::find($item['id']);
+            $productGtin['quantity'] = 1;
+            $totalOrder += $productGtin['price'];
+
+            $order->gtins()->attach($productGtin);
+        }
+
+        $order['total'] = $totalOrder;
+        $order->save();
+
+        return $order;
     }
 
     public function show(Order $order)

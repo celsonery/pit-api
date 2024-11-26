@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreOrderRequest;
-use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Order;
 use App\Services\OrderService;
-use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -25,8 +22,7 @@ class OrderController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $order = $this->orderService->store($request->all());
-
+        $order = $this->orderService->store($request['order']);
         return response()->json($order);
     }
 
