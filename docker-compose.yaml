@@ -9,7 +9,7 @@ services:
       - ./:/var/www
     depends_on:
       - mysql
-      - redis
+#      - redis
     ports:
       - "8000:8000"
     networks:
@@ -26,7 +26,7 @@ services:
     volumes:
       - ./:/var/www
     depends_on:
-      - redis
+#      - redis
       - app
     networks:
       - pit-network
