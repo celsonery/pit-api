@@ -1,7 +1,6 @@
 vendor/
 node_modules/
 .docker/
-storage/
 .idea/
 .vscode/
 .fleet/
@@ -9,12 +8,10 @@ storage/
 build/
 cache/
 database/
-resources/
 tests/
 .phpunit.cache/
 reports/
 k8s/
-bootstrap/cache/*
 .env
 .env.backup
 .env.production

@@ -1,0 +1,153 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-pit
+  namespace: celso
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-pit
+  template:
+    metadata:
+      labels:
+        app: api-pit
+    spec:
+      securityContext:
+        runAsUser: 5000
+        runAsGroup: 5000
+      containers:
+        - name: pit
+          image: celsonery/api-pit:v1.0.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: APP_ENV
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: app_env
+            - name: APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: app_key
+            - name: APP_DEBUG
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: app_debug
+            - name: APP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: app_url
+            - name: FRONTEND_URL
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: frontend_url
+            - name: SANCTUM_STATEFUL_DOMAINS
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: sanctum_stateful_domains
+            - name: DB_CONNECTION
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: db_connection
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: db_host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: db_port
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: db_database
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: db_username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: db_password
+            - name: MAIL_MAILER
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: mail_mailer
+            - name: MAIL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: mail_host
+            - name: MAIL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: mail_port
+            - name: MAIL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: mail_username
+            - name: MAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: mail_password
+            - name: MAIL_FROM_ADDRESS
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: mail_from_address
+            - name: MAIL_FROM_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: mail_from_name
+          securityContext:
+            allowPrivilegeEscalation: false
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "1000m"
+          ports:
+            - containerPort: 8000
+#      imagePullSecrets:
+#        - name: regcred
+#      affinity:
+#        nodeAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+#            - matchExpressions:
+#              - key: name
+#                operator: In
+#                values:
+#                - k8s-dev02
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-pit-service
+  namespace: celso
+spec:
+  selector:
+    app: api-pit
+  type: ClusterIP
+  ports:
+    - port: 8000
+      targetPort: 8000
