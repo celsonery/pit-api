@@ -18,7 +18,7 @@ spec:
         runAsGroup: 5000
       containers:
         - name: pit
-          image: celsonery/api-pit:v1.0.0
+          image: celsonery/api-pit:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: APP_ENV
@@ -26,6 +26,11 @@ spec:
                 secretKeyRef:
                   name: secrets-pit
                   key: app_env
+            - name: APP_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: secrets-pit
+                  key: app_name
             - name: APP_KEY
               valueFrom:
                 secretKeyRef:
