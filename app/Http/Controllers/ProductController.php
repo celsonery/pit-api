@@ -15,11 +15,7 @@ class ProductController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        if ($request->search) {
-            logs()->debug('Realizando busca: ', $request->search);
-        }
-
-        $products = $this->productService->list();
+        $products = $this->productService->list($request);
 
         return response()->json($products);
     }
