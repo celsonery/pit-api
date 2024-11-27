@@ -38,7 +38,7 @@ class AuthController extends Controller
         //        $user->notify(new RegisterActivate($user));
         $access_token = $user->createToken('access_token')->plainTextToken;
 
-        return response()->json(['access_token' => $access_token, 'message' => 'User created successfully!'], 201);
+        return response()->json(['user' => $user, 'access_token' => $access_token, 'message' => 'User created successfully!'], 201);
     }
 
     /**
@@ -50,7 +50,7 @@ class AuthController extends Controller
         $credentials['active'] = 1;
         $credentials['deleted_at'] = null;
 
-        if (! Auth::attempt($credentials)) {
+        if (!Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized!'], 401);
         }
 
@@ -79,7 +79,7 @@ class AuthController extends Controller
      */
     public function logout(): JsonResponse
     {
-        if (! Auth::user()->currentAccessToken()->delete()) {
+        if (!Auth::user()->currentAccessToken()->delete()) {
             return response()->json(['message' => 'The user token not revoked!']);
         }
 
@@ -112,83 +112,17 @@ class AuthController extends Controller
     {
         $user = User::where('activation_token', $token)->first();
 
-        if (! $user) {
+        if (!$user) {
             return response()->json(['message' => 'This activation token is invalid!'], 404);
         }
 
         $user->active = true;
         $user->activation_token = '';
 
-        if (! $user->save()) {
+        if (!$user->save()) {
             return response()->json(['message' => 'User activate error!'], 401);
         }
 
         return response()->json(['message' => 'User activate successfully!'], 200);
-    }
-
-    /**
-     * Redirect the user to the Provider authentication page.
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function redirectToProvider(string $provider)
-    {
-        //        $validated = $this->validateProvider($provider);
-        //
-        //        if (!$validated) {
-        //            return response()->json(['error' => 'Please login using facebook, github or google'], 422);
-        //        }
-
-        return Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
-    }
-
-    /**
-     * Redirect the user to the Provider authentication page.
-     */
-    public function handleProviderCallback(string $provider): JsonResponse
-    {
-        //        $validated = $this->validateProvider($provider);
-        //
-        //        if (!$validated) {
-        //            return response()->json(['error' => 'Please login using facebook, github or google'], 422);
-        //        }
-
-        try {
-            $user = Socialite::driver($provider)->stateless()->user();
-        } catch (ClientException $exception) {
-            return response()->json(['error' => 'Invalid credentials provided'], 422);
-        }
-
-        $userCreated = User::firstOrCreate([
-            'email' => $user->getEmail(),
-        ], [
-            'role_id' => 4,
-            'email_verified_at' => now(),
-            'name' => $user->getName(),
-            'status' => true,
-            'active' => true,
-        ]);
-
-        $userCreated->providers()->updateOrCreate([
-            'provider' => $provider,
-            'provider_id' => $user->getId(),
-        ], [
-            'avatar' => $user->getAvatar(),
-        ]);
-
-        $userCreated->providers()->where('provider_id', $user->getId())->select('avatar');
-
-        //            = User::with(['providers' => fn ($providers) => $providers->limit(1)->select('avatar', 'user_id')])
-        //            ->select(['id', 'name'])
-        //            ->find(Auth::user()->id);
-
-        $token = $userCreated->createToken('token-name')->plainTextToken;
-
-        return response()->json($userCreated, 200, ['access_token' => $token]);
-    }
-
-    protected function validateProvider(string $provider): bool
-    {
-        return in_array($provider, ['facebook', 'github', 'google']);
     }
 }
