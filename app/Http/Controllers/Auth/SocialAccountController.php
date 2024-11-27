@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -15,7 +14,7 @@ class SocialAccountController extends Controller
     {
         $validated = $this->validateProvider($provider);
 
-        if (!$validated) {
+        if (! $validated) {
             return response()->json(['error' => 'Please login using facebook, github or google'], 422);
         }
 
@@ -26,12 +25,11 @@ class SocialAccountController extends Controller
     {
         $validated = $this->validateProvider($provider);
 
-        if (!$validated) {
+        if (! $validated) {
             return response()->json(['error' => 'Please login using facebook, github or google'], 422);
         }
 
         $user = Socialite::driver($provider)->stateless()->user();
-
 
         $userCreated = User::firstOrCreate([
             'email' => $user->getEmail(),
